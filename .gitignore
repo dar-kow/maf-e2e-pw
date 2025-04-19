@@ -1,0 +1,41 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# TypeScript build info
+*.tsbuildinfo
+\# Dist and build folders
+dist/
+build/
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# Playwright artifacts
+playwright-report/
+playwright-results/
+trace.zip
+video.webm
+error-content.md
+
+# Test results & coverage
+/test-results/
+coverage/
+.nyc_output/
+
+# Optional: lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
