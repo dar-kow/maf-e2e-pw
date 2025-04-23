@@ -14,5 +14,5 @@ Automated end‑to‑end UI tests for the **MAF** application, built with [Playw
 ### 1. Clone repository
 
 ```bash
-git clone <your-repo-url>
-cd your-repo-folder
+git clone https://github.com/dar-kow/maf-e2e-pw
+cd maf-e2e-pw
