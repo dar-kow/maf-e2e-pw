@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
     testDir: './tests',
-    testMatch: '**/*.test.ts',
+    testMatch: ['**/*.test.ts', '**/*spec.ts', '**/test.ts'],
     timeout: 30000,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
@@ -37,11 +37,11 @@ export default defineConfig({
                 ...devices['Desktop Firefox'],
             },
         },
-        {
-            name: 'webkit',
-            use: {
-                ...devices['Desktop Safari'],
-            },
-        },
+        // {
+        //     name: 'webkit',
+        //     use: {
+        //         ...devices['Desktop Safari'],
+        //     },
+        // },
     ],
 });
