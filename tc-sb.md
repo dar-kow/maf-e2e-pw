@@ -6,7 +6,8 @@
 **Środowisko:** Przeglądarka desktop
 
 **Warunki wstępne:**
-1. Aplikacja jest dostępna i uruchomiona pod adresem http://localhost:3005
+1. Aplikacja jest dostępna i uruchomiona pod adresem http://localhost:3005 
+(można też używać maf.sdet.pl do testowania live - tutaj bardziej pod kątem testów przed deploy w dokerze)
 2. Sidebar jest widoczny
 
 **Kroki testowe:**
