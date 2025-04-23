@@ -9,6 +9,10 @@ Automated end‑to‑end UI tests for the **MAF** application, built with [Playw
 - [@playwright/test](https://www.npmjs.com/package/@playwright/test)
 - [Playwright CLI & browsers](https://playwright.dev/docs/installation)
 
+## 🧪 Test Cases
+
+- [Sidebar test cases (`tc-sb.md`)](./tc-sb.md)
+
 ## 🚀 Getting Started
 
 ### 1. Clone repository
