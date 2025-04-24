@@ -1,4 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+const env = process.env.NODE_ENV || 'local';
+const envFile = env === 'local' ? '.env' : `.env.${env}`;
+const envPath = path.resolve(__dirname, envFile);
+
+console.log(`Loading environment from: ${envPath}`);
+dotenv.config({ path: envPath });
 
 export default defineConfig({
     testDir: './tests',
@@ -14,7 +23,7 @@ export default defineConfig({
     ],
     outputDir: 'test-results/',
     use: {
-        baseURL: 'http://localhost:3005',
+        baseURL: process.env.BASE_URL || 'http://localhost:3005',
         headless: true,
         ignoreHTTPSErrors: true,
         screenshot: 'only-on-failure',
