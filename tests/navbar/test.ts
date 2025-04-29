@@ -3,8 +3,6 @@ import { Actions, SidebarDestination } from "./actions";
 import { URLs } from "@utils/urls";
 import { Data } from "./data";
 
-
-
 test.describe("Navbar Header Title", () => {
   let page: Page;
   let navbarActions: Actions;
