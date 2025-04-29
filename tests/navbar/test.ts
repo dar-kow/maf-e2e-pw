@@ -1,7 +1,9 @@
 import { test, expect, Page } from "@playwright/test";
 import { Actions, SidebarDestination } from "./actions";
+import { URLs } from "@utils/urls";
 import { Data } from "./data";
-import { URLs } from "../../utils";
+
+
 
 test.describe("Navbar Header Title", () => {
   let page: Page;
