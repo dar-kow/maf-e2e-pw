@@ -1,13 +1,9 @@
 <a id="english-version"></a>
 # MAF Application UI Tests
+[English](#english-version) | [Polski](#polska-wersja)
 
 Automated end‑to‑end UI tests for the **MAF** application, built with [Playwright](https://playwright.dev/) and TypeScript.
 
-[English](#english-version) | [Polski](#polska-wersja)
-
-
-
-## English Version
 
 ## 📦 Technologies
 
@@ -154,7 +150,7 @@ To add new helper functions:
 
 ---
 <a id="polska-wersja"></a>
-# MAF Testy UI Aplikacji | [English]
+# MAF Testy UI Aplikacji
 
 [English](#english-version) | [Polski](#polska-wersja)
 
