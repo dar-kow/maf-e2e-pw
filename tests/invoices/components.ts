@@ -29,4 +29,33 @@ export const InvoiceComponents = {
   columnPaymentStatus: '[data-field="paymentStatus"]',
   columnPaidAmount: '[data-field="paidAmount"]',
   columnActions: '[data-field="actions"]',
+
+  previewBtn: (id: number) => `[data-testid="invoice-preview-btn-${id}"]`,
+  editBtn: (id: number) => `[data-testid="invoice-edit-btn-${id}"]`,
+  deleteBtn: (id: number) => `[data-testid="invoice-delete-btn-${id}"]`,
+  settleBtn: (id: number) => `[data-testid="invoice-settle-btn-${id}"]`,
+
+  tooltip: ".MuiTooltip-popper",
+  tooltipContent: ".MuiTooltip-tooltip",
+
+  previewModal: '[data-testid="invoice-preview-modal"]',
+  settlementModal: '[data-testid="invoice-settlement-modal"]',
+  deleteDialog: '[data-testid="invoice-delete-dialog"]',
+  modalBackdrop: ".MuiBackdrop-root",
+
+  columnManagerBtn: '.actions-header [data-testid="column-manager-btn"]',
+  columnManagerPanel: ".MuiPopover-root",
+
+  pagination: ".MuiDataGrid-footerContainer",
+  paginationInfo: ".MuiTablePagination-displayedRows",
+  rowsPerPageSelect: ".MuiTablePagination-select",
+
+  statusChip: ".MuiChip-root",
+  statusPaid: ".MuiChip-colorSuccess",
+  statusPartiallyPaid: ".MuiChip-colorWarning",
+  statusUnpaid: ".MuiChip-colorError",
+  statusOverdue: ".MuiChip-colorError",
+
+  filterInput: (field: string) => `[data-field="${field}"] input`,
+  filterClearBtn: (field: string) => `[data-field="${field}"] [data-testid="filter-clear-btn"]`,
 };
