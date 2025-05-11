@@ -30,10 +30,10 @@ export const InvoiceComponents = {
   columnPaidAmount: '[data-field="paidAmount"]',
   columnActions: '[data-field="actions"]',
 
-  previewBtn: (id: number) => `[data-testid="invoice-preview-btn-${id}"]`,
-  editBtn: (id: number) => `[data-testid="invoice-edit-btn-${id}"]`,
-  deleteBtn: (id: number) => `[data-testid="invoice-delete-btn-${id}"]`,
-  settleBtn: (id: number) => `[data-testid="invoice-settle-btn-${id}"]`,
+  previewBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="DescriptionIcon"]`,
+  settleBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="CreditCardIcon"]`,
+  editBtn: (id: number | string) => `[data-testid="invoice-edit-btn-${id}"]`,
+  deleteBtn: (id: number | string) => `[data-testid="invoice-delete-btn-${id}"]`,
 
   tooltip: ".MuiTooltip-popper",
   tooltipContent: ".MuiTooltip-tooltip",
