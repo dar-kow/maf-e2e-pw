@@ -94,4 +94,28 @@ test.describe("Invoice List", () => {
     // Assert
     expect(isDisabled).toBe(true);
   });
+
+  test("should show tooltips on action buttons", async () => {
+    // Arrange
+    const id = await invoiceActions.getInvoiceIdByRowIndex(0);
+    const firstRow = page.locator(InvoiceComponents.gridRow).first();
+    await Helpers.waitForState(firstRow, "visible");
+
+    // Act & Assert - Preview button
+    let tooltipText = await invoiceActions.getTooltipTextForButton(InvoiceComponents.previewBtn(0));
+    expect(tooltipText).toBe(InvoiceData.tooltips.preview);
+
+    // Act & Assert - Edit button
+    await invoiceActions.scrollToActionsColumn();
+    tooltipText = await invoiceActions.getTooltipTextForButton(InvoiceComponents.editBtn(id));
+    expect(tooltipText).toBe(InvoiceData.tooltips.edit);
+
+    // Act & Assert - Delete button
+    tooltipText = await invoiceActions.getTooltipTextForButton(InvoiceComponents.deleteBtn(id));
+    expect(tooltipText).toBe(InvoiceData.tooltips.delete);
+
+    // Act & Assert - Settle button
+    tooltipText = await invoiceActions.getTooltipTextForButton(InvoiceComponents.settleBtn(0));
+    expect(tooltipText).toBe(InvoiceData.tooltips.settle);
+  });
 });
