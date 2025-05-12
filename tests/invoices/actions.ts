@@ -21,37 +21,28 @@ export class InvoiceActions {
     await Helpers.waitForState(gridRows.first(), "visible");
   }
 
-  private async scrollToActionsColumn() {
+  async scrollToActionsColumn() {
     await this.page.evaluate(() => {
       const actionsColumn = document.querySelector('[data-field="actions"]');
       const virtualScroller = document.querySelector(".MuiDataGrid-virtualScroller");
-
       if (!actionsColumn || !virtualScroller) return;
-
       const columnRect = actionsColumn.getBoundingClientRect();
       const scrollerRect = virtualScroller.getBoundingClientRect();
-
-      if (columnRect.right <= scrollerRect.right && columnRect.left >= scrollerRect.left) {
-        return;
-      }
-
+      if (columnRect.right <= scrollerRect.right && columnRect.left >= scrollerRect.left) return;
       virtualScroller.scrollTo({
         left: virtualScroller.scrollWidth - virtualScroller.clientWidth,
         behavior: "smooth",
       });
     });
-
     await this.page.waitForTimeout(300);
   }
 
   private async ensureInvoiceRowIsVisible(invoiceId: number) {
     const rows = this.page.locator(InvoiceComponents.gridRow);
     const rowCount = await rows.count();
-
     for (let i = 0; i < rowCount; i++) {
       const row = rows.nth(i);
       const rowText = await row.textContent();
-
       if (rowText?.includes(invoiceId.toString())) {
         await row.scrollIntoViewIfNeeded();
         await this.page.waitForTimeout(200);
@@ -78,31 +69,27 @@ export class InvoiceActions {
     await this.page.click(InvoiceComponents.printBtn);
   }
 
-  async clickPreviewInvoice(invoiceId: number) {
+  private async clickInvoiceAction(invoiceId: number, btnSelectorFn: (id: number) => string, scrollToActions = true) {
     await this.ensureInvoiceRowIsVisible(invoiceId);
-    const selector = InvoiceComponents.previewBtn(invoiceId);
+    const selector = btnSelectorFn(invoiceId);
+    if (scrollToActions) await this.scrollToActionsColumn();
     await this.page.click(selector);
+  }
+
+  async clickPreviewInvoice(invoiceId: number) {
+    await this.clickInvoiceAction(invoiceId, InvoiceComponents.previewBtn, false);
   }
 
   async clickEditInvoice(invoiceId: number) {
-    await this.ensureInvoiceRowIsVisible(invoiceId);
-    const selector = InvoiceComponents.editBtn(invoiceId);
-    await this.scrollToActionsColumn();
-    await this.page.click(selector);
+    await this.clickInvoiceAction(invoiceId, InvoiceComponents.editBtn);
   }
 
   async clickDeleteInvoice(invoiceId: number) {
-    await this.ensureInvoiceRowIsVisible(invoiceId);
-    const selector = InvoiceComponents.deleteBtn(invoiceId);
-    await this.scrollToActionsColumn();
-    await this.page.click(selector);
+    await this.clickInvoiceAction(invoiceId, InvoiceComponents.deleteBtn);
   }
 
   async clickSettleInvoice(invoiceId: number) {
-    await this.ensureInvoiceRowIsVisible(invoiceId);
-    const selector = InvoiceComponents.settleBtn(invoiceId);
-    await this.scrollToActionsColumn();
-    await this.page.click(selector);
+    await this.clickInvoiceAction(invoiceId, InvoiceComponents.settleBtn);
   }
 
   async confirmDelete() {
@@ -114,57 +101,52 @@ export class InvoiceActions {
   }
 
   async hoverOverButton(selector: string) {
-    await this.scrollToActionsColumn();
     await this.page.hover(selector);
-    // Wait for tooltip to appear
     const tooltip = this.page.locator(InvoiceComponents.tooltip);
-    await Helpers.waitForState(tooltip, "visible", 1000);
+    await Helpers.waitForState(tooltip, "visible");
+  }
+
+  private async waitForProgressbarHidden(timeout = 5000) {
+    const progressbar = this.page.getByRole("progressbar");
+    await Helpers.waitForState(progressbar, "hidden", timeout).catch(() => {});
   }
 
   async getRowCount() {
-    const progressbar = this.page.getByRole("progressbar");
-    await Helpers.waitForState(progressbar, "hidden", 5000).catch(() => {});
+    await this.waitForProgressbarHidden();
     return await this.page.locator(InvoiceComponents.gridRow).count();
   }
 
   async getColumnHeaders() {
-    const progressbar = this.page.getByRole("progressbar");
-    await Helpers.waitForState(progressbar, "hidden", 5000).catch(() => {});
+    await this.waitForProgressbarHidden();
     return await this.page.locator(InvoiceComponents.gridHeader).allTextContents();
   }
 
-  async getInvoiceNumberInRow(rowIndex: number) {
+  private async getCellTextInRow(rowIndex: number, cellSelector: string) {
     const row = this.page.locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1})`);
     await row.scrollIntoViewIfNeeded();
-    return await this.page
-      .locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1}) ${InvoiceComponents.columnNumber}`)
-      .textContent();
+    return await this.page.locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1}) ${cellSelector}`).textContent();
+  }
+
+  async getInvoiceNumberInRow(rowIndex: number) {
+    return await this.getCellTextInRow(rowIndex, InvoiceComponents.columnNumber);
   }
 
   async getContractorInRow(rowIndex: number) {
-    const row = this.page.locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1})`);
-    await row.scrollIntoViewIfNeeded();
-    return await this.page
-      .locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1}) ${InvoiceComponents.columnContractor}`)
-      .textContent();
+    return await this.getCellTextInRow(rowIndex, InvoiceComponents.columnContractor);
   }
 
   async getStatusInRow(rowIndex: number) {
-    const row = this.page.locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1})`);
-    await row.scrollIntoViewIfNeeded();
-    return await this.page.locator(`${InvoiceComponents.gridRow}:nth-child(${rowIndex + 1}) ${InvoiceComponents.statusChip}`).textContent();
+    return await this.getCellTextInRow(rowIndex, InvoiceComponents.statusChip);
   }
 
   async filterByColumn(field: string, value: string) {
     const filterSelector = InvoiceComponents.filterInput(field);
-    // await this.ensureElementIsVisible(filterSelector);
     await this.page.fill(filterSelector, value);
     await this.page.waitForTimeout(300);
   }
 
   async clearColumnFilter(field: string) {
     const clearSelector = InvoiceComponents.filterClearBtn(field);
-    // await this.ensureElementIsVisible(clearSelector);
     await this.page.click(clearSelector);
   }
 
@@ -192,26 +174,33 @@ export class InvoiceActions {
     return await this.page.locator(InvoiceComponents.tooltipContent).textContent();
   }
 
-  async scrollToBottom() {
+  async getTooltipTextForButton(selector: string): Promise<string | null> {
+    await this.hoverOverButton(selector);
+    const text = await this.getTooltipText();
+    const firstRow = this.page.locator(InvoiceComponents.gridRow).first();
+    await firstRow.hover();
+    const tooltip = this.page.locator(InvoiceComponents.tooltip);
+    await Helpers.waitForState(tooltip, "hidden");
+    return text;
+  }
+
+  private async scrollGridVertically(to: "top" | "bottom") {
     const grid = this.page.locator(InvoiceComponents.gridTable);
-    await grid.evaluate((element) => {
+    await grid.evaluate((element, scrollTo) => {
       const scrollContainer = element.querySelector(".MuiDataGrid-virtualScroller");
       if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        scrollContainer.scrollTop = scrollTo === "top" ? 0 : scrollContainer.scrollHeight;
       }
-    });
+    }, to);
     await this.page.waitForTimeout(300);
   }
 
+  async scrollToBottom() {
+    await this.scrollGridVertically("bottom");
+  }
+
   async scrollToTop() {
-    const grid = this.page.locator(InvoiceComponents.gridTable);
-    await grid.evaluate((element) => {
-      const scrollContainer = element.querySelector(".MuiDataGrid-virtualScroller");
-      if (scrollContainer) {
-        scrollContainer.scrollTop = 0;
-      }
-    });
-    await this.page.waitForTimeout(300);
+    await this.scrollGridVertically("top");
   }
 
   async getInvoiceIdByRowIndex(rowIndex: number): Promise<number> {
