@@ -213,4 +213,14 @@ export class InvoiceActions {
     });
     await this.page.waitForTimeout(300);
   }
+
+  async getInvoiceIdByRowIndex(rowIndex: number): Promise<number> {
+    const row = this.page.locator(`[data-rowindex="${rowIndex}"]`);
+    await Helpers.waitForState(row, "visible");
+    const idAttr = await row.getAttribute("data-id");
+    if (idAttr === null) {
+      throw new Error(`No data-id attribute found for row with index ${rowIndex}`);
+    }
+    return Number(idAttr);
+  }
 }
