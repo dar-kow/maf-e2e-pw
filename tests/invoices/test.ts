@@ -118,4 +118,14 @@ test.describe("Invoice List", () => {
     tooltipText = await invoiceActions.getTooltipTextForButton(InvoiceComponents.settleBtn(0));
     expect(tooltipText).toBe(InvoiceData.tooltips.settle);
   });
+
+  test("should open preview modal when clicking preview button", async () => {
+    // Act
+    await invoiceActions.clickPreviewInvoice(1);
+    await Helpers.waitForModalOpen(page, InvoiceComponents.previewModal);
+
+    // Assert
+    const isModalOpen = await invoiceActions.isModalOpen(InvoiceComponents.previewModal);
+    expect(isModalOpen).toBe(true);
+  });
 });

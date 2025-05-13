@@ -56,12 +56,12 @@ export class Helpers {
     const modal = page.locator(selector);
     await this.waitForState(modal, "visible", timeout);
 
-    const backdrop = page.locator(".MuiBackdrop-root");
-    const backdropCount = await backdrop.count();
+    // const backdrop = page.locator(".MuiBackdrop-root");
+    // const backdropCount = await backdrop.count();
 
-    if (backdropCount > 0) {
-      await this.waitForState(backdrop, "visible", timeout);
-    }
+    // if (backdropCount > 0) {
+    //   await this.waitForState(backdrop, "visible", timeout);
+    // }
   }
 
   static async waitForModalClose(page: Page, selector: string, timeout: number = 5000) {
