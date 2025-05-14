@@ -128,4 +128,14 @@ test.describe("Invoice List", () => {
     const isModalOpen = await invoiceActions.isModalOpen(InvoiceComponents.previewModal);
     expect(isModalOpen).toBe(true);
   });
+
+  test("should open settlement modal when clicking settle button", async () => {
+    // Act
+    await invoiceActions.clickSettleInvoice(1);
+    await Helpers.waitForModalOpen(page, InvoiceComponents.settlementModal);
+
+    // Assert
+    const isModalOpen = await invoiceActions.isModalOpen(InvoiceComponents.settlementModal);
+    expect(isModalOpen).toBe(true);
+  });
 });
