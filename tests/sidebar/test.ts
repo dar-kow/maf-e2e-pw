@@ -281,4 +281,20 @@ test.describe("Sidebar Navigation", () => {
     // Clean up
     await newPage.close();
   });
+
+  test("TC-SB-014: should open LinkedIn profile in new tab with correct URL", async () => {
+    // Arrange
+    const isCollapsed = await sidebarActions.isSidebarCollapsed();
+
+    // Act
+    const newPage = await sidebarActions.clickSocialLink(2, isCollapsed);
+
+    // Assert
+    const expectedUrl = SidebarData.externalLinks[2].url;
+    const actualUrl = newPage.url();
+    expect(actualUrl).toBe(expectedUrl);
+
+    // Clean up
+    await newPage.close();
+  });
 });
