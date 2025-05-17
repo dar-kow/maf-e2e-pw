@@ -232,4 +232,21 @@ test.describe("Sidebar Navigation", () => {
       expect(linkHref).toBe(SidebarData.externalLinks[i].url);
     }
   });
+
+  test("TC-SB-011: should have proper target and rel attributes for social links", async () => {
+    // Arrange - Can test this in either collapsed or expanded state
+    const isCollapsed = await sidebarActions.isSidebarCollapsed();
+    const linkSelector = isCollapsed
+      ? (i: number) => `[data-testid="sidebar-vertical-social-link-${i}"]`
+      : (i: number) => `[data-testid="sidebar-social-link-${i}"]`;
+
+    // Act & Assert - Check target and rel attributes for each link
+    for (let i = 0; i < SidebarData.externalLinks.length; i++) {
+      const target = await page.getAttribute(linkSelector(i), "target");
+      const rel = await page.getAttribute(linkSelector(i), "rel");
+
+      expect(target).toBe("_blank");
+      expect(rel).toBe("noopener noreferrer");
+    }
+  });
 });
