@@ -217,4 +217,19 @@ test.describe("Sidebar Navigation", () => {
       expect(linkHref).toBe(SidebarData.externalLinks[i].url);
     }
   });
+
+  test("TC-SB-010: should have correct URLs for social links when sidebar is collapsed", async () => {
+    // Arrange - Ensure sidebar is collapsed
+    const isCollapsed = await sidebarActions.isSidebarCollapsed();
+    if (!isCollapsed) {
+      await sidebarActions.toggleSidebar();
+      await page.waitForTimeout(400);
+    }
+
+    // Act & Assert - Check URLs for each vertical social link
+    for (let i = 0; i < SidebarData.externalLinks.length; i++) {
+      const linkHref = await page.getAttribute(`[data-testid="sidebar-vertical-social-link-${i}"]`, "href");
+      expect(linkHref).toBe(SidebarData.externalLinks[i].url);
+    }
+  });
 });
