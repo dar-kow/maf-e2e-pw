@@ -164,4 +164,14 @@ test.describe("Invoice List", () => {
     const isDialogOpen = await invoiceActions.isModalOpen(InvoiceComponents.deleteDialog);
     expect(isDialogOpen).toBe(false);
   });
+
+  test("should navigate to edit page when clicking edit button", async () => {
+    // Act
+    const id = await invoiceActions.getInvoiceIdByRowIndex(1);
+    await invoiceActions.clickEditInvoice(1);
+    await Helpers.waitForUrlContains(page, InvoiceData.urls.editInvoice(1));
+
+    // Assert
+    expect(page.url()).toContain(InvoiceData.urls.editInvoice(id));
+  });
 });
