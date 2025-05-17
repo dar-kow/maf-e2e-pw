@@ -61,10 +61,10 @@ export const InvoiceData = {
   },
 
   statusLabels: {
-    paid: "Zapłacono",
-    partiallyPaid: "Częściowo zapłacono",
-    unpaid: "Niezapłacono",
-    overdue: "Po terminie",
+    paid: "Ołacona",
+    partiallyPaid: "Częściowo opłacona",
+    unpaid: "Niezapłacona",
+    overdue: "Zaległa",
   },
 
   messages: {

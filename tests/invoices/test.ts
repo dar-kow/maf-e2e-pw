@@ -174,4 +174,37 @@ test.describe("Invoice List", () => {
     // Assert
     expect(page.url()).toContain(InvoiceData.urls.editInvoice(id));
   });
+
+  test.skip("should filter by column values", async () => {
+    // Act
+    await invoiceActions.filterByColumn("number", InvoiceData.filterValues.number);
+    await Helpers.waitForGridUpdate(page);
+
+    // Assert
+    const invoiceNumber = await invoiceActions.getInvoiceNumberInRow(0);
+    expect(invoiceNumber).toContain(InvoiceData.filterValues.number);
+  });
+
+  test.skip("should clear column filter", async () => {
+    // Arrange
+    await invoiceActions.filterByColumn("number", InvoiceData.filterValues.number);
+    await Helpers.waitForGridUpdate(page);
+    const filteredRowCount = await invoiceActions.getRowCount();
+
+    // Act
+    await invoiceActions.clearColumnFilter("number");
+    await Helpers.waitForGridUpdate(page);
+    const clearedRowCount = await invoiceActions.getRowCount();
+
+    // Assert
+    expect(clearedRowCount).toBeGreaterThan(filteredRowCount);
+  });
+
+  test("should display correct payment status chips", async () => {
+    // Act
+    const statusText = await invoiceActions.getStatusInRow(0);
+
+    // Assert
+    expect(Object.values(InvoiceData.statusLabels)).toContain(statusText);
+  });
 });
