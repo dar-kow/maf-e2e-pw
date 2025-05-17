@@ -28,7 +28,7 @@ export class InvoiceActions {
       if (!actionsColumn || !virtualScroller) return;
       const columnRect = actionsColumn.getBoundingClientRect();
       const scrollerRect = virtualScroller.getBoundingClientRect();
-      if (columnRect.right <= scrollerRect.right && columnRect.left >= scrollerRect.left) return;
+      if (columnRect.right <= scrollerRect.right && columnRect.left >= scrollerRect.left) return;about:blank#blocked
       virtualScroller.scrollTo({
         left: virtualScroller.scrollWidth - virtualScroller.clientWidth,
         behavior: "smooth",
