@@ -208,7 +208,7 @@ test.describe("Invoice List", () => {
     expect(Object.values(InvoiceData.statusLabels)).toContain(statusText);
   });
 
-  test.only("should change rows per page", async () => {
+  test("should change rows per page", async () => {
     // Act
     await invoiceActions.changeRowsPerPage("10");
     await Helpers.waitForGridUpdate(page);
