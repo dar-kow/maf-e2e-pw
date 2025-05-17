@@ -19,7 +19,7 @@ test.describe("Invoice List", () => {
     await page.close();
   });
 
-  test("should display invoice list with correct headers", async () => {
+  test("TC-IL-001: should display invoice list with correct headers", async () => {
     // Act
     const headers = await invoiceActions.getColumnHeaders();
 
@@ -27,7 +27,7 @@ test.describe("Invoice List", () => {
     expect(headers).toEqual(InvoiceData.columnHeaders);
   });
 
-  test("should display invoice data in grid rows", async () => {
+  test("TC-IL-002: should display invoice data in grid rows", async () => {
     // Act
     const rowCount = await invoiceActions.getRowCount();
     const firstInvoiceNumber = await invoiceActions.getInvoiceNumberInRow(0);
@@ -39,7 +39,7 @@ test.describe("Invoice List", () => {
     expect(firstContractor).toBeTruthy();
   });
 
-  test("should search invoices by number", async () => {
+  test("TC-IL-003: should search invoices by number", async () => {
     // Arrange
     const initialRowCount = await invoiceActions.getRowCount();
 
@@ -54,7 +54,7 @@ test.describe("Invoice List", () => {
     expect(invoiceNumber).toContain(InvoiceData.searchTerms.byNumber);
   });
 
-  test("should search invoices by contractor name", async () => {
+  test("TC-IL-004: should search invoices by contractor name", async () => {
     // Act
     await invoiceActions.searchInvoices(InvoiceData.searchTerms.byContractor);
     await Helpers.waitForGridUpdate(page);
@@ -64,7 +64,7 @@ test.describe("Invoice List", () => {
     expect(contractorName?.toLowerCase()).toContain(InvoiceData.searchTerms.byContractor.toLowerCase());
   });
 
-  test("should show no results for non-existent search term", async () => {
+  test("TC-IL-005: should show no results for non-existent search term", async () => {
     // Act
     await invoiceActions.searchInvoices(InvoiceData.searchTerms.noResults);
     await Helpers.waitForGridUpdate(page);
@@ -74,7 +74,7 @@ test.describe("Invoice List", () => {
     expect(rowCount).toBe(0);
   });
 
-  test("should navigate to new invoice page when clicking add button", async () => {
+  test("TC-IL-006: should navigate to new invoice page when clicking add button", async () => {
     // Act
     await invoiceActions.clickAddInvoice();
     await Helpers.waitForUrlContains(page, InvoiceData.urls.newInvoice);
@@ -83,7 +83,7 @@ test.describe("Invoice List", () => {
     expect(page.url()).toContain(InvoiceData.urls.newInvoice);
   });
 
-  test("should disable print button when no invoices", async () => {
+  test("TC-IL-007: should disable print button when no invoices", async () => {
     // Arrange
     await invoiceActions.searchInvoices(InvoiceData.searchTerms.noResults);
     await Helpers.waitForGridUpdate(page);
@@ -95,7 +95,7 @@ test.describe("Invoice List", () => {
     expect(isDisabled).toBe(true);
   });
 
-  test("should show tooltips on action buttons", async () => {
+  test("TC-IL-008: should show tooltips on action buttons", async () => {
     // Arrange
     const id = await invoiceActions.getInvoiceIdByRowIndex(0);
     const firstRow = page.locator(InvoiceComponents.gridRow).first();
@@ -119,7 +119,7 @@ test.describe("Invoice List", () => {
     expect(tooltipText).toBe(InvoiceData.tooltips.settle);
   });
 
-  test("should open preview modal when clicking preview button", async () => {
+  test("TC-IL-009: should open preview modal when clicking preview button", async () => {
     // Act
     await invoiceActions.clickPreviewInvoice(1);
     await Helpers.waitForModalOpen(page, InvoiceComponents.previewModal);
@@ -129,7 +129,7 @@ test.describe("Invoice List", () => {
     expect(isModalOpen).toBe(true);
   });
 
-  test("should open settlement modal when clicking settle button", async () => {
+  test("TC-IL-010: should open settlement modal when clicking settle button", async () => {
     // Act
     await invoiceActions.clickSettleInvoice(1);
     await Helpers.waitForModalOpen(page, InvoiceComponents.settlementModal);
@@ -139,7 +139,7 @@ test.describe("Invoice List", () => {
     expect(isModalOpen).toBe(true);
   });
 
-  test("should show delete confirmation dialog", async () => {
+  test("TC-IL-011: should show delete confirmation dialog", async () => {
     // Act
     await invoiceActions.clickDeleteInvoice(1);
     await Helpers.waitForModalOpen(page, InvoiceComponents.deleteDialog);
@@ -151,7 +151,7 @@ test.describe("Invoice List", () => {
     expect(dialogText).toContain(InvoiceData.messages.deleteConfirmation);
   });
 
-  test("should close delete dialog on cancel", async () => {
+  test("TC-IL-012: should close delete dialog on cancel", async () => {
     // Arrange
     await invoiceActions.clickDeleteInvoice(1);
     await Helpers.waitForModalOpen(page, InvoiceComponents.deleteDialog);
@@ -165,7 +165,7 @@ test.describe("Invoice List", () => {
     expect(isDialogOpen).toBe(false);
   });
 
-  test("should navigate to edit page when clicking edit button", async () => {
+  test("TC-IL-013: should navigate to edit page when clicking edit button", async () => {
     // Act
     const id = await invoiceActions.getInvoiceIdByRowIndex(1);
     await invoiceActions.clickEditInvoice(1);
@@ -175,7 +175,7 @@ test.describe("Invoice List", () => {
     expect(page.url()).toContain(InvoiceData.urls.editInvoice(id));
   });
 
-  test.skip("should filter by column values", async () => {
+  test.skip("TC-IL-014: should filter by column values", async () => {
     // Act
     await invoiceActions.filterByColumn("number", InvoiceData.filterValues.number);
     await Helpers.waitForGridUpdate(page);
@@ -185,7 +185,7 @@ test.describe("Invoice List", () => {
     expect(invoiceNumber).toContain(InvoiceData.filterValues.number);
   });
 
-  test.skip("should clear column filter", async () => {
+  test.skip("TC-IL-015: should clear column filter", async () => {
     // Arrange
     await invoiceActions.filterByColumn("number", InvoiceData.filterValues.number);
     await Helpers.waitForGridUpdate(page);
@@ -200,7 +200,7 @@ test.describe("Invoice List", () => {
     expect(clearedRowCount).toBeGreaterThan(filteredRowCount);
   });
 
-  test("should display correct payment status chips", async () => {
+  test("TC-IL-016: should display correct payment status chips", async () => {
     // Act
     const statusText = await invoiceActions.getStatusInRow(0);
 
@@ -208,7 +208,7 @@ test.describe("Invoice List", () => {
     expect(Object.values(InvoiceData.statusLabels)).toContain(statusText);
   });
 
-  test("should change rows per page", async () => {
+  test("TC-IL-017: should change rows per page", async () => {
     // Act
     await invoiceActions.changeRowsPerPage("10");
     await Helpers.waitForGridUpdate(page);
