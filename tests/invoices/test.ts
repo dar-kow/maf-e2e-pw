@@ -207,4 +207,14 @@ test.describe("Invoice List", () => {
     // Assert
     expect(Object.values(InvoiceData.statusLabels)).toContain(statusText);
   });
+
+  test.only("should change rows per page", async () => {
+    // Act
+    await invoiceActions.changeRowsPerPage("10");
+    await Helpers.waitForGridUpdate(page);
+
+    // Assert
+    const paginationText = await page.textContent(InvoiceComponents.paginationInfo);
+    expect(paginationText).toContain("10");
+  });
 });

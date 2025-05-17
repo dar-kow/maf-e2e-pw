@@ -165,7 +165,7 @@ export class InvoiceActions {
   async changeRowsPerPage(value: string) {
     const selector = InvoiceComponents.rowsPerPageSelect;
     await this.page.click(selector);
-    await this.page.getByRole("option", { name: value }).click();
+    await this.page.getByRole("option", { name: value }).first().click();
   }
 
   async getTooltipText() {
