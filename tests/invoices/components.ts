@@ -32,7 +32,7 @@ export const InvoiceComponents = {
 
   previewBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="DescriptionIcon"]`,
   settleBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="CreditCardIcon"]`,
-  editBtn: (id: number | string) => `[data-testid="invoice-edit-btn-${id}"]`,
+  editBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="EditIcon"]`,
   deleteBtn: (id: number | string) => `[data-rowindex="${id}"] [data-testid="DeleteIcon"]`,
 
   tooltip: ".MuiTooltip-popper",
