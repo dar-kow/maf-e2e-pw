@@ -249,4 +249,20 @@ test.describe("Sidebar Navigation", () => {
       expect(rel).toBe("noopener noreferrer");
     }
   });
+
+  test("TC-SB-012: should open Swagger documentation in new tab with correct URL", async () => {
+    // Arrange
+    const isCollapsed = await sidebarActions.isSidebarCollapsed();
+
+    // Act
+    const newPage = await sidebarActions.clickSocialLink(0, isCollapsed);
+
+    // Assert
+    const expectedUrl = SidebarData.externalLinks[0].url;
+    const actualUrl = newPage.url();
+    expect(actualUrl).toBe(expectedUrl);
+
+    // Clean up
+    await newPage.close();
+  });
 });
