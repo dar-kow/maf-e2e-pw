@@ -150,4 +150,18 @@ test.describe("Invoice List", () => {
     const dialogText = await page.textContent(InvoiceComponents.deleteDialog);
     expect(dialogText).toContain(InvoiceData.messages.deleteConfirmation);
   });
+
+  test("should close delete dialog on cancel", async () => {
+    // Arrange
+    await invoiceActions.clickDeleteInvoice(1);
+    await Helpers.waitForModalOpen(page, InvoiceComponents.deleteDialog);
+
+    // Act
+    await invoiceActions.cancelDelete();
+    await Helpers.waitForModalClose(page, InvoiceComponents.deleteDialog);
+
+    // Assert
+    const isDialogOpen = await invoiceActions.isModalOpen(InvoiceComponents.deleteDialog);
+    expect(isDialogOpen).toBe(false);
+  });
 });
