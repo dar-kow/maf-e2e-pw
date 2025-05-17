@@ -265,4 +265,20 @@ test.describe("Sidebar Navigation", () => {
     // Clean up
     await newPage.close();
   });
+
+  test("TC-SB-013: should open GitHub repository in new tab with correct URL", async () => {
+    // Arrange
+    const isCollapsed = await sidebarActions.isSidebarCollapsed();
+
+    // Act
+    const newPage = await sidebarActions.clickSocialLink(1, isCollapsed);
+
+    // Assert
+    const expectedUrl = SidebarData.externalLinks[1].url;
+    const actualUrl = newPage.url();
+    expect(actualUrl).toBe(expectedUrl);
+
+    // Clean up
+    await newPage.close();
+  });
 });
